@@ -1,0 +1,300 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Form Example',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Employee Registration Form!'),
+        ),
+        body: MyForm(),
+      ),
+    );
+  }
+}
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  String _name = "0";
+  String _email = "0";
+  String _password = "0";
+  String _add = "0";
+  String _gender = "0";
+  String _dept = "IT";
+  bool _agreeToTerms = false;
+  double _sliderValue = 5.0;
+  double _salaryValue = 20000.0;
+  bool _skills = false;
+  bool _skills1 = false;
+  bool _skills2 = false;
+  bool _skills3 = false;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _submitForm() {
+    final FormState? form = _formKey.currentState;
+
+    if (!form!.validate()) {
+      showMessage('Form is not valid!  Please review and correct.');
+    } else {
+      form.save(); //This invokes each onSaved event
+
+      showMessage('Name: $_name\n'
+          'Email: $_email\n'
+          'Password: $_password\n'
+          'Address: $_add\n'
+          'Gender: $_gender\n'
+          'Department: $_dept\n'
+          'Salary: $_salaryValue\n'
+          'Skills: \nProgramming: $_skills\nLogic: $_skills1\nNetworking: $_skills2\nMarketing & Sales: $_skills3\n'
+          'Year of Experience: $_sliderValue\n'
+          'Agree to terms: $_agreeToTerms\n');
+    }
+  }
+
+  void showMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Employee Name',
+                  //hintText: 'Enter Full Name',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your name.';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _name = value!;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Employee Email ID',
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email address.';
+                  }
+                  if (!RegExp(r'\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$')
+                      .hasMatch(value)) {
+                    return 'Please enter a valid email address.';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _email = value!;
+                },
+              ),
+              TextFormField(
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a password.';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters long.';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _password = value!;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Address',
+                ),
+                maxLines: 3,
+                onSaved: (value) {
+                  _add = value!;
+                },
+              ),
+              const SizedBox(height: 16.0),
+              const Text('Gender'),
+              Row(
+                children: <Widget>[
+                  Radio(
+                    value: 'Male',
+                    groupValue: _gender,
+                    onChanged: (value) {
+                      setState(() {
+                        _gender = 'Male';
+                      });
+                    },
+                  ),
+                  const Text('Male'),
+                  Radio(
+                    value: 'Female',
+                    groupValue: _gender,
+                    onChanged: (value) {
+                      setState(() {
+                        _gender = 'Female';
+                      });
+                    },
+                  ),
+                  const Text('Female'),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              const Text('Department'),
+              DropdownButtonFormField(
+                value: _dept,
+                onChanged: (value) {
+                  setState(() {
+                    _dept = value as String;
+                  });
+                },
+                items: const [
+                  DropdownMenuItem(
+                    value: 'IT',
+                    child: Text('IT'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Sales',
+                    child: Text('Sales'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Marketing',
+                    child: Text('Marketing'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Accounts',
+                    child: Text('Accounts'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Adminsitration',
+                    child: Text('Administration'),
+                  ),
+                ],
+                decoration: const InputDecoration(
+                  labelText: 'Department',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Text('Salary: ${_salaryValue.toInt()}'),
+              Slider(
+                value: _salaryValue,
+                min: 10000.0,
+                max: 100000.0,
+                divisions: 10,
+                onChanged: (value) {
+                  setState(() {
+                    _salaryValue = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Text('Skills'),
+              CheckboxListTile(
+                title: const Text('Programming'),
+                value: _skills,
+                onChanged: (value) {
+                  setState(() {
+                    _skills = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Logic'),
+                value: _skills1,
+                onChanged: (value) {
+                  setState(() {
+                    _skills1 = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Networking'),
+                value: _skills2,
+                onChanged: (value) {
+                  setState(() {
+                    _skills2 = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Marketing & Sales'),
+                value: _skills3,
+                onChanged: (value) {
+                  setState(() {
+                    _skills3 = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Text('Year of Experience: ${_sliderValue.toInt()}'),
+              Slider(
+                value: _sliderValue,
+                min: 0.0,
+                max: 10.0,
+                divisions: 10,
+                onChanged: (value) {
+                  setState(() {
+                    _sliderValue = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 16.0),
+              CheckboxListTile(
+                title: const Text('I agree to the terms and conditions.'),
+                value: _agreeToTerms,
+                onChanged: (value) {
+                  setState(() {
+                    _agreeToTerms = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: const Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
