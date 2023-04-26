@@ -1,0 +1,76 @@
+import 'dart:html';
+import 'package:flutter/material.dart';
+
+//import 'package:flutter/widgets.dart';
+void main() {
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: HomePage(),
+  ));
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: AppBar(
+        title: const Text('Home Screen'),
+        backgroundColor: Colors.purple,
+      ),
+      body: Center(
+        child: ElevatedButton(
+            child: const Text('Click for Second page!'),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const secondPage()));
+            }),
+      ),
+    );
+  }
+}
+
+class secondPage extends StatelessWidget {
+  const secondPage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: AppBar(
+        title: const Text('Second Screen'),
+        backgroundColor: Colors.lightGreen,
+      ),
+      body: Center(
+        child: ElevatedButton(
+            child: const Text('Click for Third page!'),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const thirdPage()));
+            }),
+      ),
+    );
+  }
+}
+
+class thirdPage extends StatelessWidget {
+  const thirdPage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: AppBar(
+        title: const Text('Third Screen'),
+        backgroundColor: Colors.pink,
+      ),
+      body: Center(
+        child: ElevatedButton(
+            child: const Text('Click for Home page!'),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            }),
+      ),
+    );
+  }
+}
