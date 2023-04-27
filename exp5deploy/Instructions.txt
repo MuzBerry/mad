@@ -1,0 +1,24 @@
+Step 1: create icon 192 x 192 px in png format and rename it to icon.png
+Step 2: add icon in asset folder
+Step 3 : add dependencies for icon by visitng pub dev site
+dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+run the "flutter pub get command"
+after saving the file run the following command for app bundle
+"flutter build appbundle" 
+
+Once you run this command, you will find the generated .aab file in the build/app/outputs/bundle/release/ directory of your Flutter project.
+After that run the following command for apk bundle
+"flutter build apk" 
+
+Once you run this command, you will find the generated APK file in the build/app/outputs/flutter-apk/ directory of your Flutter project.
+Download the apk file in your personnel smart phone and install it.
+
+IT WILL TAKE A LOT OF TIME TO BUILD THE APK AND STUFFS. DONT WORRY ITS NORMAL BUT TO SPEEDUP THE PROCESS, I HAVE PROVIDED APKS HERE FOR YOU
